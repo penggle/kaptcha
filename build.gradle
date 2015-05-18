@@ -1,0 +1,111 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'maven'
+apply plugin: 'signing' //使用signing plugin做数字签名
+
+group = 'com.github.penggle'
+version = '2.3.2'
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+ext.versions = [
+	junit: '4.12',
+	jhlabs: '2.0.235-1',
+	servlet: '3.1.0'
+]
+
+[compileJava, javadoc, compileTestJava]*.options*.encoding = "UTF-8"
+
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'kaptcha', 'Implementation-Version': version
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile(
+    	"com.jhlabs:filters:${versions.jhlabs}",
+    	"javax.servlet:javax.servlet-api:${versions.servlet}"
+    )
+	
+    testCompile(
+		"junit:junit:${versions.junit}"
+	)
+}
+
+//参见Part 2， 为项目生成**.jar/**-javadoc.jar/**-sources.jar  
+task javadocJar(type: Jar, dependsOn: javadoc) {  
+    classifier = 'javadoc'  
+    from 'build/docs/javadoc'  
+}
+
+task sourcesJar(type: Jar) {
+	classifier = 'sources'
+	from sourceSets.main.allSource
+}
+
+artifacts {
+	archives jar
+	archives javadocJar
+	archives sourcesJar
+}
+
+//为所有的jar包做数字签名
+signing {
+	sign configurations.archives
+}
+
+uploadArchives {
+	repositories {
+		mavenDeployer {
+			//为Pom文件做数字签名
+			beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+  
+			//指定项目部署到的中央库地址，UserName和Password就是Part 1中注册的账号,
+			/**
+			 * 看jira中的comment,snapshot和release版本的提交地址是不一样的(注意版本号后面是否带-SNAPSHOT),否则报400
+			 * Configuration has been prepared, now you can:
+			 * 		Deploy snapshot artifacts into repository https://oss.sonatype.org/content/repositories/snapshots
+			 * 		Deploy release artifacts into the staging repository https://oss.sonatype.org/service/local/staging/deploy/maven2
+			 * 		Promote staged artifacts into repository 'Releases'
+			 * 		Download snapshot and release artifacts from group https://oss.sonatype.org/content/groups/public
+			 * 		Download snapshot, release and staged artifacts from staging group https://oss.sonatype.org/content/groups/staging
+			 */
+			repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2") {
+				authentication(userName: nexusUsername, password: nexusPassword)
+			}
+			//构造项目的Pom文件，参见Part 2中Pom文件的规范，不要遗漏必填项
+			pom.project {
+				name project.name
+				packaging 'jar'
+				description 'commons is a little java tool to make your development easier in your work.'
+				url 'https://github.com/penggle/kaptcha'
+  
+				scm {
+					url 'scm:git@github.com:penggle/kaptcha.git'
+					connection 'scm:git@github.com:penggle/kaptcha.git'
+					developerConnection 'git@github.com:penggle/kaptcha.git'
+				}
+  
+				licenses {
+					license {
+						name 'The Apache Software License, Version 2.0'
+						url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+						distribution 'repo'
+					}
+				}
+  
+				developers {
+					developer {
+						id 'pengpeng'
+						name 'Peng Peng'
+					}
+				}
+			}
+		}
+	}
+}
