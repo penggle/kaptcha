@@ -1,6 +1,6 @@
 kaptcha - A kaptcha generation engine.
 
-This repo is the copy of http://code.google.com/p/kaptcha/ and publish to maven central
+This repo is the copy of http://code.google.com/p/kaptcha/ and published to maven central
 ```
 <dependency>
   <groupId>com.github.penggle</groupId>
