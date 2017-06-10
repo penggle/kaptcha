@@ -1,4 +1,4 @@
-kaptcha - A kaptcha generation engine.
+# kaptcha - A kaptcha generation engine.
 
 This repo is the copy of http://code.google.com/p/kaptcha/ and published to maven central
 ```
