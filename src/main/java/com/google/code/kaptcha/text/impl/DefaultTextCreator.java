@@ -1,5 +1,6 @@
 package com.google.code.kaptcha.text.impl;
 
+import java.security.SecureRandom;
 import java.util.Random;
 
 import com.google.code.kaptcha.text.TextProducer;
@@ -18,7 +19,7 @@ public class DefaultTextCreator extends Configurable implements TextProducer
 	{
 		int length = getConfig().getTextProducerCharLength();
 		char[] chars = getConfig().getTextProducerCharString();
-		Random rand = new Random();
+		Random rand = new SecureRandom();
 		StringBuffer text = new StringBuffer();
 		for (int i = 0; i < length; i++)
 		{

@@ -8,6 +8,7 @@ import java.awt.geom.CubicCurve2D;
 import java.awt.geom.PathIterator;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
+import java.security.SecureRandom;
 import java.util.Random;
 
 import com.google.code.kaptcha.NoiseProducer;
@@ -41,7 +42,7 @@ public class DefaultNoise extends Configurable implements NoiseProducer
 
 		// the points where the line changes the stroke and direction
 		Point2D[] pts = null;
-		Random rand = new Random();
+		Random rand = new SecureRandom();
 
 		// the curve from where the points are taken
 		CubicCurve2D cc = new CubicCurve2D.Float(width * factorOne, height

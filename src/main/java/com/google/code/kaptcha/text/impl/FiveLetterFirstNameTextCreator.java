@@ -1,6 +1,7 @@
 package com.google.code.kaptcha.text.impl;
 
 import java.util.Random;
+import java.security.SecureRandom;
 
 import com.google.code.kaptcha.text.TextProducer;
 
@@ -1056,7 +1057,7 @@ public class FiveLetterFirstNameTextCreator implements TextProducer
 	public String getText()
 	{
 		int randomContext = FIRST_NAMES.length - 1;
-		Random rand = new Random();
+		Random rand = new SecureRandom();
 		return FIRST_NAMES[rand.nextInt(randomContext) + 1];
 	}
 }

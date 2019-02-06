@@ -1,6 +1,6 @@
 package com.google.code.kaptcha.text.impl;
 
-import java.util.Random;
+import java.security.SecureRandom;
 
 import com.google.code.kaptcha.text.TextProducer;
 
@@ -19,6 +19,6 @@ public class ChineseTextProducer implements TextProducer
 	 */
 	public String getText()
 	{
-		return simplifiedChineseTexts[new Random().nextInt(simplifiedChineseTexts.length)];
+		return simplifiedChineseTexts[new SecureRandom().nextInt(simplifiedChineseTexts.length)];
 	}
 }

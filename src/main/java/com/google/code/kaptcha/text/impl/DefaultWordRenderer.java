@@ -7,6 +7,7 @@ import java.awt.RenderingHints;
 import java.awt.font.FontRenderContext;
 import java.awt.font.GlyphVector;
 import java.awt.image.BufferedImage;
+import java.security.SecureRandom;
 import java.util.Random;
 
 import com.google.code.kaptcha.text.WordRenderer;
@@ -48,7 +49,7 @@ public class DefaultWordRenderer extends Configurable implements WordRenderer
 		g2D.setRenderingHints(hints);
 
 		FontRenderContext frc = g2D.getFontRenderContext();
-		Random random = new Random();
+		Random random = new SecureRandom();
 
 		int startPosY = (height - fontSize) / 5 + fontSize;
 

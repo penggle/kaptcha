@@ -2,6 +2,7 @@ package com.google.code.kaptcha.impl;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.security.SecureRandom;
 import java.util.Random;
 
 import com.google.code.kaptcha.GimpyEngine;
@@ -35,7 +36,7 @@ public class ShadowGimpy extends Configurable implements GimpyEngine
 		shadowFilter.setDistance(5);
 		shadowFilter.setOpacity(1);
 
-		Random rand = new Random();
+		Random rand = new SecureRandom();
 
 		RippleFilter rippleFilter = new RippleFilter();
 		rippleFilter.setWaveType(RippleFilter.SINE);
